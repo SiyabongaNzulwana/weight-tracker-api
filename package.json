@@ -1,0 +1,15 @@
+{
+  "name": "weigth-tracker",
+  "version": "1.0.0",
+  "description": "Server to track weight progress",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Siyabonga Nzulwana",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.18.2",
+    "morgan": "^1.10.0"
+  }
+}
