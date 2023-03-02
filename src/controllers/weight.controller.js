@@ -123,20 +123,21 @@ const removeUserWeightRecord = async (req, res) => {
       })
     }
 
-    const data = await Weight.deleteOne({ _id: id })
-    if (data.deletedCount <= 0) {
+    const data = await Weight.findOneAndDelete({ _id: id })
+
+    if (data) {
       return res.status(200).json({
+        success: true,
+        data
+      })
+    } else {
+      return res.status(400).json({
         success: false,
         error: {
-          message: 'Nothing was deleted'
+          message: 'The weight to delete was not found.'
         }
       })
     }
-
-    return res.status(200).json({
-      success: true,
-      data
-    })
   } catch (error) {
     console.log(
       `Error found on ${fileName} function removeUserWeightRecord(): `,
