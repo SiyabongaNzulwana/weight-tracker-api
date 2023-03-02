@@ -1,3 +1,4 @@
+require('dotenv').config()
 const config = require('config')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -12,7 +13,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-if (!config.get('jwtPrivateKey')) {
+if (!process.env.jwtPrivateKey) {
   console.error('FATAL ERROR: jwtPrivateKey is not defined')
   process.exit(1)
 }
