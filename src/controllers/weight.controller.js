@@ -96,7 +96,7 @@ const getUserWeightRecords = async (req, res) => {
     const data = await Weight.find({ userId: user._id })
 
     const sortedData = data.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      (a, b) => new Date(b.weightDate) - new Date(a.weightDate)
     )
 
     return res.status(200).json({
