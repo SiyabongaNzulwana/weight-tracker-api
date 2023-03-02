@@ -1,9 +1,13 @@
 'use strict'
 
+require('dotenv').config()
+
 const jwt = require('jsonwebtoken')
 const config = require('config')
 
 const auth = (req, res, next) => {
+  // Ideally I woould get this from the req.header('x-auth-token'),
+
   const token = req.header('x-auth-token')
   if (!token) {
     return res.status(401).json({
@@ -15,7 +19,7 @@ const auth = (req, res, next) => {
   }
 
   try {
-    const decodedPayload = jwt.verify(token, config.get('jwtPrivateKey'))
+    const decodedPayload = jwt.verify(token, process.env.jwtPrivateKey)
     req.user = decodedPayload
     next()
   } catch (error) {
