@@ -4,6 +4,10 @@
 
 Run the following command
 
+I used a mongoodb database, if you don't have mongodb installed, please check this out https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/
+
+and then start it `brew services start mongodb`
+
 ### `npm i` to install the dependancies
 ### make sure you create a `.env` file on the root of the project directory
 
