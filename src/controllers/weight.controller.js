@@ -26,7 +26,7 @@ const addWeight = async (req, res) => {
       })
     }
 
-    if (req.body.weight <= 0) {
+    if (req.body?.weight <= 0) {
       return res.status(400).json({
         success: false,
         error: {
@@ -47,7 +47,7 @@ const addWeight = async (req, res) => {
     }
 
     const data = {
-      weight: req.body.weight,
+      weight: req.body?.weight,
       weightDate,
       userId: user._id
     }
@@ -95,9 +95,13 @@ const getUserWeightRecords = async (req, res) => {
 
     const data = await Weight.find({ userId: user._id })
 
+    const sortedData = data.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    )
+
     return res.status(200).json({
       success: true,
-      data
+      data: sortedData
     })
   } catch (error) {
     console.log(`Error found on ${fileName} function getUserWeights(): `, error)
