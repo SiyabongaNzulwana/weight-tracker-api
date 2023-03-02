@@ -26,6 +26,15 @@ const addWeight = async (req, res) => {
       })
     }
 
+    if (req.body.weight <= 0) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'weight can not be 0 or less'
+        }
+      })
+    }
+
     const user = await User.findOne({ email })
 
     if (!user) {
@@ -62,18 +71,13 @@ const addWeight = async (req, res) => {
  * This function is responsible for retrieving a user's weights documents/records on the DB.
  */
 const getUserWeightRecords = async (req, res) => {
-  const { email } = req.body
+  const { email } = req.params
   try {
-    const schema = Joi.object({
-      email: Joi.string().min(5).max(255).required().email()
-    })
-    const { error } = schema.validate(req.body)
-
-    if (error) {
+    if (!email) {
       return res.status(400).json({
         success: false,
         error: {
-          message: error.message
+          message: 'email address is required.'
         }
       })
     }
