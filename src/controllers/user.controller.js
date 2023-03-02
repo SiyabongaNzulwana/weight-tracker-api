@@ -39,9 +39,13 @@ const registerUser = async (req, res) => {
       User.create(req.body).then((user) => {
         user.password = undefined
         const token = user.generateAuthToken()
+
+        const userObject = user.toObject()
+        Object.assign(userObject, { token })
+
         return res.header('x-auth-token', token).status(200).json({
           success: true,
-          data: user
+          data: userObject
         })
       })
     } else {
@@ -83,7 +87,7 @@ const signIn = async (req, res) => {
       })
     }
 
-    const user = await User.findOne({ email }).select('-password')
+    const user = await User.findOne({ email })
 
     if (!user) {
       return res.status(400).json({
@@ -94,7 +98,7 @@ const signIn = async (req, res) => {
       })
     }
 
-    const validPassword = await bcrypt.compareSync(password, user.password)
+    const validPassword = bcrypt.compareSync(password, user.password)
 
     if (!validPassword) {
       return res.status(400).json({
@@ -106,9 +110,11 @@ const signIn = async (req, res) => {
     }
 
     const token = user.generateAuthToken()
+    const userObject = user.toObject()
+    Object.assign(userObject, { token })
     return res.header('x-auth-token', token).status(200).json({
       success: true,
-      data: user,
+      data: userObject,
       message: 'Successfully LoggedIn...'
     })
   } catch (error) {
